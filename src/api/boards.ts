@@ -1,49 +1,82 @@
 import axios from "axios";
+import { Delete, Get, Patch, Post } from "./wrapper";
+import { BoardData } from "../pages/BoardEdit/BoardEdit";
+
 //인터페이스로 다 만들지 그냥 쓸지
 export interface ICreateBoard {
   title: string;
   content: string;
   category: string;
   file?: File | null;
-  token: string;
 }
+
 export interface IUpdateBoard {
   id: number;
   title: string;
   content: string;
   category: string;
   file?: File | null;
-  token: string;
 }
+
 export interface IGetBoardSize {
   page: number;
   size: number;
-  token: string;
 }
 
-export async function createBoard({
+export interface IBoardItem {
+  id: number;
+  title: string;
+  category: string;
+  createdAt: string;
+}
+
+export interface ISort {
+  unsorted: boolean;
+  sorted: boolean;
+  empty: boolean;
+}
+
+export interface IPageable {
+  pageNumber: number;
+  pageSize: number;
+  sort: ISort;
+  offset: number;
+  unpaged: boolean;
+  paged: boolean;
+}
+
+export interface IBoardListResponse {
+  content: IBoardItem[];
+  pageable: IPageable;
+  totalPages: number;
+  totalElements: number;
+  last: boolean;
+  numberOfElements: number;
+  size: number;
+  number: number;
+  sort: ISort;
+  first: boolean;
+  empty: boolean;
+}
+
+export async function postBoard({
   title,
   content,
   category,
   file,
-  token,
 }: ICreateBoard) {
   const formData = new FormData();
-  formData.append("request", JSON.stringify({ title, content, category }));
+  const requestBlob = new Blob([JSON.stringify({ title, content, category })], {
+    type: "application/json",
+  });
+  formData.append("request", requestBlob);
   if (file) {
     formData.append("file", file);
   }
 
-  const res = await axios.post(
-    "https://front-mission.bigs.or.kr/boards",
-    formData,
-    {
-      headers: {
-        "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
+  const res = await Post("/boards", formData, {
+    contentType: file ? "multipart/form-data" : "appliaction/json",
+  });
   return res.data;
 }
 
@@ -53,68 +86,44 @@ export async function updateBoard({
   content,
   category,
   file,
-  token,
 }: IUpdateBoard) {
   const formData = new FormData();
-  formData.append("request", JSON.stringify({ title, content, category }));
+  const requestBlob = new Blob([JSON.stringify({ title, content, category })], {
+    type: "application/json",
+  });
+  formData.append("request", requestBlob);
   if (file) {
     formData.append("file", file);
   }
 
-  const res = await axios.patch(
-    `https://front-mission.bigs.or.kr/boards/${id}`,
-    formData,
-    {
-      headers: {
-        "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
+  const res = await Patch(`/boards/${id}`, formData, {
+    contentType: "multipart/form-data",
+  });
   return res.data;
 }
 
-export async function deleteBoard(id: number, token: string) {
-  const res = await axios.delete(
-    `https://front-mission.bigs.or.kr/boards/${id}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
+export async function deleteBoard(id: number) {
+  const res = await Delete(`/boards/${id}`);
   return res.data;
 }
 
-export async function getBoard(id: number, token: string) {
-  const res = await axios.get(`https://front-mission.bigs.or.kr/boards/${id}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
+export async function getBoard(id: number) {
+  const res = await Get<BoardData>(`/boards/${id}`);
+  return res.data;
+}
+
+export async function getBoardSize({ page, size }: IGetBoardSize) {
+  // const res = await Get(`/boards?page=${page}&size=${size}`);
+  const res = await Get<IBoardListResponse>("/boards", {
+    params: {
+      page,
+      size,
     },
   });
   return res.data;
 }
 
-export async function getBoardSize({ page, size, token }: IGetBoardSize) {
-  const res = await axios.get(
-    `https://front-mission.bigs.or.kr/boards?page=${page}&size=${size}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
-  return res.data;
-}
-
-export async function getCategories(token: string) {
-  const res = await axios.get(
-    "https://front-mission.bigs.or.kr/boards/categories",
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
+export async function getCategories() {
+  const res = await Get<ResCategory>("/boards/categories");
   return res.data;
 }

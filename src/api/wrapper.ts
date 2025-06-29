@@ -2,7 +2,6 @@ import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
 import AuthStore from "../stores/AuthStore";
 import { refresh } from "./auth";
 
-// 중복 refresh 요청 방지
 let isRefreshing = false;
 
 const axiosInstance = axios.create({
@@ -30,13 +29,10 @@ axiosInstance.interceptors.response.use(
       const refreshToken = sessionStorage.getItem("refreshToken");
 
       if (refreshToken) {
-        // 이미 refresh 중이면 대기
         if (isRefreshing) {
-          // refresh 완료까지 대기
           while (isRefreshing) {
             await new Promise((resolve) => setTimeout(resolve, 100));
           }
-          // refresh 완료 후 재시도
           const token = AuthStore.accessToken;
           if (token) {
             const originalRequest = error.config;
@@ -98,13 +94,10 @@ axiosFormDataInstance.interceptors.response.use(
       const refreshToken = sessionStorage.getItem("refreshToken");
 
       if (refreshToken) {
-        // 이미 refresh 중이면 대기
         if (isRefreshing) {
-          // refresh 완료까지 대기
           while (isRefreshing) {
             await new Promise((resolve) => setTimeout(resolve, 100));
           }
-          // refresh 완료 후 재시도
           const token = AuthStore.accessToken;
           if (token) {
             const originalRequest = error.config;
@@ -146,10 +139,6 @@ export const Get = async <T>(
   return await axiosInstance.get(url, config);
 };
 
-interface PostOptions {
-  contentType?: string;
-}
-
 export const Post = async <T>(
   url: string,
   data?: Record<string, any> | string,
@@ -166,7 +155,7 @@ export const Post = async <T>(
   return await axiosInstance.post(url, data, config);
 };
 
-export const Patch = async <T>(
+export const Patch = async (
   url: string,
   data?: Record<string, any> | string,
   options?: PostOptions
@@ -182,7 +171,7 @@ export const Patch = async <T>(
   return await axiosInstance.patch(url, data, config);
 };
 
-export const Delete = async <T>(
+export const Delete = async (
   url: string,
   data?: Record<string, any> | string,
   options?: PostOptions

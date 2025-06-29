@@ -18,11 +18,10 @@ class AuthStore {
   setAccessToken(token: string) {
     this.accessToken = token;
 
-    // JWT 토큰에서 사용자 정보 추출
     const decodedToken = decodeJWT(token);
     if (decodedToken && decodedToken.name && decodedToken.username) {
       this.user = {
-        email: decodedToken.email || decodedToken.username, // email이 없으면 username 사용
+        email: decodedToken.email || decodedToken.username,
         name: decodedToken.name,
         username: decodedToken.username,
       };
@@ -42,7 +41,6 @@ class AuthStore {
     this.user = null;
     sessionStorage.removeItem("refreshToken");
     sessionStorage.removeItem("userEmail");
-    // 쿠키가 있다면 쿠키도 삭제
     document.cookie =
       "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
   }

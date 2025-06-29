@@ -73,12 +73,12 @@ export const CategoryFilter = styled.div`
   }
 `;
 
-export const CategoryButton = styled.button<{ active?: boolean }>`
+export const CategoryButton = styled.button<{ $active?: boolean }>`
   padding: 8px 20px;
   border-radius: 20px;
   border: none;
-  background: ${({ active }) => (active ? "#4f8cff" : "#f1f5f9")};
-  color: ${({ active }) => (active ? "#fff" : "#7b7b93")};
+  background: ${({ $active }) => ($active ? "#4f8cff" : "#f1f5f9")};
+  color: ${({ $active }) => ($active ? "#fff" : "#7b7b93")};
   font-weight: 600;
   font-size: 1rem;
   cursor: pointer;

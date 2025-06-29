@@ -35,7 +35,7 @@ export const Top = styled.div`
   }
 `;
 
-export const Aside = styled.aside<{ isOpen: boolean }>`
+export const Aside = styled.aside<{ $isOpen: boolean }>`
   width: 250px;
   background: #eee;
   padding: 16px;
@@ -52,9 +52,9 @@ export const Aside = styled.aside<{ isOpen: boolean }>`
     z-index: 1000;
     width: 280px;
     transform: ${(props) =>
-      props.isOpen ? "translateX(0)" : "translateX(-100%)"};
+      props.$isOpen ? "translateX(0)" : "translateX(-100%)"};
     box-shadow: ${(props) =>
-      props.isOpen ? "2px 0 10px rgba(0,0,0,0.1)" : "none"};
+      props.$isOpen ? "2px 0 10px rgba(0,0,0,0.1)" : "none"};
   }
 
   @media (max-width: 480px) {
@@ -73,8 +73,8 @@ export const CategoryList = styled.ul`
   padding: 10px 0;
 `;
 
-export const CategoryItem = styled.li<{ isActive: boolean }>`
-  background-color: ${(props) => (props.isActive ? "#d0eaff" : "transparent")};
+export const CategoryItem = styled.li<{ $isActive: boolean }>`
+  background-color: ${(props) => (props.$isActive ? "#d0eaff" : "transparent")};
   border-radius: 8px;
   margin-bottom: 4px;
 
@@ -86,7 +86,7 @@ export const CategoryItem = styled.li<{ isActive: boolean }>`
     transition: background-color 0.2s ease;
 
     &:hover {
-      background-color: ${(props) => (props.isActive ? "#d0eaff" : "#f5f5f5")};
+      background-color: ${(props) => (props.$isActive ? "#d0eaff" : "#f5f5f5")};
     }
   }
 
@@ -210,7 +210,6 @@ export const Main = styled.main`
   }
 `;
 
-// 모바일 햄버거 메뉴 버튼
 export const MobileMenuButton = styled.button`
   display: none;
   position: fixed;
@@ -236,8 +235,7 @@ export const MobileMenuButton = styled.button`
   }
 `;
 
-// 모바일 오버레이
-export const MobileOverlay = styled.div<{ isOpen: boolean }>`
+export const MobileOverlay = styled.div<{ $isOpen: boolean }>`
   display: none;
   position: fixed;
   top: 0;
@@ -246,8 +244,8 @@ export const MobileOverlay = styled.div<{ isOpen: boolean }>`
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
   z-index: 999;
-  opacity: ${(props) => (props.isOpen ? 1 : 0)};
-  visibility: ${(props) => (props.isOpen ? "visible" : "hidden")};
+  opacity: ${(props) => (props.$isOpen ? 1 : 0)};
+  visibility: ${(props) => (props.$isOpen ? "visible" : "hidden")};
   transition: opacity 0.3s ease, visibility 0.3s ease;
 
   @media (max-width: 768px) {

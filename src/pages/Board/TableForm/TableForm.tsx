@@ -8,8 +8,6 @@ interface TableFormProps {
 }
 
 const TableForm: React.FC<TableFormProps> = ({ data, categories }) => {
-  console.log(data);
-
   const navigate = useNavigate();
   const getCategoryLabel = (categoryValue: string) => {
     const category = categories.find((cat) => cat.value === categoryValue);

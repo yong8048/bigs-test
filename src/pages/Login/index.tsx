@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as S from "./Login.styles";
 import InputForm from "./InputForm/InputForm";
 import Btn from "../../components/Button/Button";
@@ -13,13 +13,19 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const refreshToken = sessionStorage.getItem("refreshToken");
+    if (refreshToken) {
+      navigate("/board", { replace: true });
+    }
+  }, [navigate]);
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       const result = await login({ username: email, password });
       authStore.setAccessToken(result.accessToken);
       sessionStorage.setItem("refreshToken", result.refreshToken);
-      // sessionStorage.setItem("userEmail", email);
       navigate("/board");
     } catch (error: any) {
       alert(error.response?.data?.message || "로그인에 실패했습니다.");

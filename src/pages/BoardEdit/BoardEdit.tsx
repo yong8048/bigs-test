@@ -8,15 +8,6 @@ import Loading from "../../components/Loading/Loading";
 
 type Category = { label: string; value: string };
 
-export interface BoardData {
-  id: number;
-  title: string;
-  content: string;
-  boardCategory: string;
-  imageUrl?: string;
-  createdAt: string;
-}
-
 const BoardEdit = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -62,6 +53,12 @@ const BoardEdit = () => {
       });
   }, [id, navigate]);
 
+  const handleDeleteImage = () => {
+    const emptyFile = new File([""], "empty.png", { type: "image/png" });
+    setFile(emptyFile);
+    setOriginalImageUrl(undefined);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const accessToken = authStore.accessToken;
@@ -80,11 +77,6 @@ const BoardEdit = () => {
         alert("게시글 수정에 실패했습니다.");
       }
     }
-  };
-
-  const handleDeleteImage = () => {
-    setFile(null);
-    setOriginalImageUrl(undefined);
   };
 
   if (loading) {

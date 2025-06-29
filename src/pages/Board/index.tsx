@@ -9,8 +9,6 @@ import Button from "../../components/Button/Button";
 import { useNavigate } from "react-router";
 import Loading from "../../components/Loading/Loading";
 
-export interface IBoardSize {}
-
 const Board = () => {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState("ALL");
@@ -27,8 +25,6 @@ const Board = () => {
     selectedCategory === "ALL"
       ? boardData
       : boardData.filter((row) => row.category === selectedCategory);
-
-  console.log(filteredData);
 
   useEffect(() => {
     const accessToken = authStore.accessToken;
@@ -70,21 +66,14 @@ const Board = () => {
   return (
     <S.Container>
       <S.TitleRow>
-        <S.Title
-          onClick={() => {
-            authStore.accessToken = "ee";
-            console.log(authStore.accessToken);
-          }}
-        >
-          게시판
-        </S.Title>
+        <S.Title>게시판</S.Title>
       </S.TitleRow>
       <S.TableCard>
         <S.CategoryFilter>
           {categories.map((cat) => (
             <S.CategoryButton
               key={cat.value}
-              active={selectedCategory === cat.value}
+              $active={selectedCategory === cat.value}
               onClick={() => setSelectedCategory(cat.value)}
             >
               {cat.label}

@@ -8,27 +8,16 @@ import Button from "../../components/Button/Button";
 import Loading from "../../components/Loading/Loading";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { MdOutlineEdit } from "react-icons/md";
-interface BoardData {
-  id: number;
-  title: string;
-  content: string;
-  boardCategory: string;
-  imageUrl?: string;
-  createdAt: string;
-}
 
 const BoardDetail = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [boardData, setBoardData] = useState<BoardData | null>(null);
-  console.log(boardData);
-
   const [categories, setCategories] = useState<
     { label: string; value: string }[]
   >([]);
   const [loading, setLoading] = useState(true);
 
-  // 카테고리 영어 값을 한글 label로 변환하는 함수
   const getCategoryLabel = (categoryValue: string) => {
     const category = categories.find((cat) => cat.value === categoryValue);
     return category ? category.label : categoryValue;
@@ -53,8 +42,6 @@ const BoardDetail = () => {
       navigate("/login");
       return;
     }
-
-    // 카테고리 정보 가져오기
     getCategories()
       .then((data) => {
         const categoryList = Object.entries(data).map(([value, label]) => ({
@@ -66,11 +53,8 @@ const BoardDetail = () => {
       .catch(() => {
         navigate("/login");
       });
-
-    // 게시글 상세 정보 가져오기
     getBoard(parseInt(id))
       .then((data) => {
-        console.log(data);
         setBoardData(data);
         setLoading(false);
       })
@@ -109,9 +93,8 @@ const BoardDetail = () => {
             </S.ActionButtons>
           </S.MetaInfo>
         </S.Header>
-
         <S.Content>
-          {boardData.imageUrl && (
+          {boardData.imageUrl && boardData.imageUrl !== "" && (
             <S.ImageContainer>
               <S.Image
                 src={`https://front-mission.bigs.or.kr${boardData.imageUrl}`}
@@ -121,9 +104,7 @@ const BoardDetail = () => {
           )}
           <S.TextContent>{boardData.content}</S.TextContent>
         </S.Content>
-
         <S.ButtonContainer>
-          {/* <Button onClick={() => navigate(`/board/${id}/edit`)}>수정</Button> */}
           <Button onClick={() => navigate("/board")}>목록</Button>
         </S.ButtonContainer>
       </S.Card>

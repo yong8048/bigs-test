@@ -13,7 +13,6 @@ body {
   line-height: 1.6;
 }
 
-/* 반응형 브레이크포인트 */
 :root {
   --mobile: 480px;
   --tablet: 768px;
@@ -21,9 +20,8 @@ body {
   --large-desktop: 1200px;
 }
 
-/* 모바일 우선 접근법 */
 html {
-  font-size: 14px; /* 기본 폰트 크기 */
+  font-size: 14px;
 }
 
 @media (min-width: 768px) {
@@ -32,7 +30,6 @@ html {
   }
 }
 
-/* 기본 반응형 유틸리티 클래스 */
 .container {
   width: 100%;
   max-width: 1200px;
@@ -46,13 +43,11 @@ html {
   }
 }
 
-/* 반응형 이미지 */
 img {
   max-width: 100%;
   height: auto;
 }
 
-/* 반응형 테이블 */
 table {
   width: 100%;
   overflow-x: auto;
@@ -65,26 +60,22 @@ table {
   }
 }
 
-/* 기본 버튼 스타일 */
 button {
   cursor: pointer;
   border: none;
   outline: none;
 }
 
-/* 기본 링크 스타일 */
 a {
   text-decoration: none;
   color: inherit;
 }
 
-/* 포커스 스타일 */
 *:focus {
   outline: 2px solid #1976d2;
   outline-offset: 2px;
 }
 
-/* 스크롤바 스타일 */
 ::-webkit-scrollbar {
   width: 8px;
 }

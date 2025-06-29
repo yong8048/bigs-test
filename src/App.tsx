@@ -12,6 +12,7 @@ import authStore from "./stores/AuthStore";
 import { refresh } from "./api/auth";
 import Loading from "./components/Loading/Loading";
 import BoardLayout from "./components/BoardLayout/BoardLayout";
+import NotFound from "./pages/NotFound";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -28,12 +29,11 @@ function App() {
       refresh({ refreshToken })
         .then((res) => {
           authStore.setAccessToken(res.accessToken);
-          // JWT 토큰에서 자동으로 사용자 정보가 추출됩니다
+
           sessionStorage.setItem("refreshToken", res.refreshToken);
           setLoading(false);
         })
         .catch((error) => {
-          // 로그아웃 처리
           authStore.logout();
           navigate("/login");
           setLoading(false);
@@ -52,13 +52,14 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/" element={<Navigate to="/board" replace />} />
+        <Route path="/" element={<Navigate to="/login" replace />} />
         <Route path="/board" element={<BoardLayout />}>
           <Route index element={<Board />} />
           <Route path="post" element={<BoardPost />} />
           <Route path=":id" element={<BoardDetail />} />
           <Route path=":id/edit" element={<BoardEdit />} />
         </Route>
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </AuthStoreContext.Provider>
   );

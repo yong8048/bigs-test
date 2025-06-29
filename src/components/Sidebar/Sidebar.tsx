@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import * as S from "./Sidebar.styles";
 import {
@@ -40,15 +40,15 @@ const Sidebar = observer(() => {
       </S.MobileMenuButton>
 
       <S.MobileOverlay
-        isOpen={isMobileMenuOpen}
+        $isOpen={isMobileMenuOpen}
         onClick={handleMobileMenuClose}
       />
 
-      <S.Aside isOpen={isMobileMenuOpen}>
+      <S.Aside $isOpen={isMobileMenuOpen}>
         <S.Top>카테고리</S.Top>
         <S.Nav>
           <S.CategoryList>
-            <S.CategoryItem isActive={location.pathname.startsWith("/board")}>
+            <S.CategoryItem $isActive={location.pathname.startsWith("/board")}>
               <Link to="/board" onClick={handleNavClick}>
                 <IoNewspaperOutline />
                 <S.CategoryLink as="span">게시판</S.CategoryLink>

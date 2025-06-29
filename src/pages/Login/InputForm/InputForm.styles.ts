@@ -24,7 +24,7 @@ export const Input = styled.input`
   border: solid 1px #dddddd;
   padding: 14px;
   border-radius: 10px;
-  font-size: 16px; /* 모바일에서 줌 방지 */
+  font-size: 16px;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 
   &:focus {

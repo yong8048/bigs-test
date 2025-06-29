@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { IoArrowBack } from "react-icons/io5";
 import { signup } from "../../api/auth";
 import { isValidEmail, isValidPassword } from "../../utils/auth";
-import { AxiosError } from "axios";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -73,8 +72,6 @@ const Signup = () => {
       navigate("/login");
     } catch (error: any) {
       const errorData = error.response.data;
-      Object.entries(errorData).map(([key, value]) => console.log(key, value));
-      // alert(error.response || "회원가입에 실패했습니다.");
       alert(Object.values(errorData));
     }
   };

@@ -11,8 +11,6 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
   const [password, setPassword] = useState("");
-  const [keepSignIn, setKeepSignIn] = useState(false);
-
   const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -21,7 +19,7 @@ const Login = () => {
       const result = await login({ username: email, password });
       authStore.setAccessToken(result.accessToken);
       sessionStorage.setItem("refreshToken", result.refreshToken);
-      alert("로그인 성공!");
+      // sessionStorage.setItem("userEmail", email);
       navigate("/board");
     } catch (error: any) {
       alert(error.response?.data?.message || "로그인에 실패했습니다.");
@@ -51,17 +49,9 @@ const Login = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <S.CheckboxForm>
-            <label>
-              <input
-                type="checkbox"
-                checked={keepSignIn}
-                onChange={(e) => setKeepSignIn(e.target.checked)}
-              />
-              로그인 유지하기
-            </label>
+          <S.SignupRow>
             <Link to="/signup">회원가입</Link>
-          </S.CheckboxForm>
+          </S.SignupRow>
           <Btn type="submit" disabled={!!emailError || !email || !password}>
             로그인
           </Btn>

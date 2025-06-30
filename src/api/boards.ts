@@ -16,7 +16,7 @@ export async function postBoard({
   }
 
   const res = await Post("/boards", formData, {
-    contentType: file ? "multipart/form-data" : "appliaction/json",
+    contentType: file ? "multipart/form-data" : "application/json",
   });
   return res.data;
 }
